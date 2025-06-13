@@ -169,4 +169,4 @@ The following files and folders are **not included** in this repository for secu
 - `venv/` – Python virtual environment folder
 - `.cache/` – Cache directory
 
-➡️ To obtain these files, please contact: **yinon@gmail.com**,**royee66@gmail.com**
+➡️ To obtain these files, please contact: **yinon@gmail.com** or **royee66@gmail.com**
