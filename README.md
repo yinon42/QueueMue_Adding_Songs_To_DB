@@ -155,7 +155,8 @@ logs/
 
 ## 📜 License
 
-Yinon Meir and Royee Benjamin
+- Yinon Meir
+- Royee Benjamin
 
 ---
 
