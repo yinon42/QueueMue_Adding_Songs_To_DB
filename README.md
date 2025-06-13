@@ -155,4 +155,18 @@ logs/
 
 ## 📜 License
 
-MIT © 2025 Yinon Meir
+Yinon Meir and Royee Benjamin
+
+---
+
+## 🛡️ Excluded Files
+
+The following files and folders are **not included** in this repository for security and environment reasons:
+
+- `.env` – Environment variables (contains Spotify credentials)
+- `queuemueue-firebase-admin.json` – Firebase Admin SDK credentials
+- `.idea/` – Project configuration files (IDE-specific)
+- `venv/` – Python virtual environment folder
+- `.cache/` – Cache directory
+
+➡️ To obtain these files, please contact: **yinon@gmail.com**,**royee66@gmail.com**
