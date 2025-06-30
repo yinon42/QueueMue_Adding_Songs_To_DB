@@ -41,7 +41,7 @@ Notes:
 FOLDER_PATH = r"C:\Users\yinon\Desktop\SongsToUpload"
 BUCKET_NAME = 'queuemueue.firebasestorage.app'
 LOGS_FOLDER = os.path.join(FOLDER_PATH, 'logs')
-CREDENTIALS_PATH = r"C:\Users\yinon\PycharmProjects\quemueFirestoreAddSongs\queuemueue-firebase-admin.json"
+CREDENTIALS_PATH = r"C:\Users\Yinon\PycharmProjects\QueueMue_Adding_Songs_To_DB\queuemueue-firebase-admin.json"
 
 # Create logs folder if it doesn't exist
 os.makedirs(LOGS_FOLDER, exist_ok=True)

@@ -12,7 +12,7 @@ python Lyrics_Fill_Batch.py SONG_ID1,SONG_ID2,SONG_ID3
 """
 
 # Initialize Firebase connection
-cred = credentials.Certificate(r"C:\Users\yinon\PycharmProjects\quemueFirestoreAddSongs\queuemueue-firebase-admin.json")
+cred = credentials.Certificate(r"C:\Users\Yinon\PycharmProjects\QueueMue_Adding_Songs_To_DB\queuemueue-firebase-admin.json")
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 db = firestore.client()

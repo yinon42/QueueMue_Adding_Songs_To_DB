@@ -40,7 +40,7 @@ Prerequisites:
 load_dotenv()
 
 # Initialize Firebase using service account JSON file
-cred = credentials.Certificate(r"C:\Users\yinon\PycharmProjects\quemueFirestoreAddSongs\queuemueue-firebase-admin.json")
+cred = credentials.Certificate(r"C:\Users\Yinon\PycharmProjects\QueueMue_Adding_Songs_To_DB\queuemueue-firebase-admin.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
