@@ -1,0 +1,50 @@
+
+"""
+This script generates semantic embeddings for song lyrics using SentenceTransformers
+and stores them in Firestore under the `embedding` field of each song document.
+
+It processes songs stored in the `songs` collection and updates only those
+which have lyrics available.
+
+How it works:
+1. Loads the SentenceTransformer model (`all-MiniLM-L6-v2`).
+2. Fetches all documents from the `songs` collection.
+3. For each song with lyrics:
+   a. Generates an embedding vector from the lyrics.
+   b. Updates the corresponding song document in Firestore with the new `embedding` field.
+
+Notes:
+- Embeddings are stored as a list of floats (e.g., 384-dimension vector).
+- Songs without lyrics are skipped automatically.
+- Requires Firebase Admin credentials and internet access to load the model.
+"""
+
+import firebase_admin
+from firebase_admin import credentials, firestore
+from sentence_transformers import SentenceTransformer
+
+# Load Firebase credentials
+cred = credentials.Certificate(r"C:\Users\yinon\PycharmProjects\quemueFirestoreAddSongs\queuemueue-firebase-admin.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
+
+# Load SentenceTransformer model
+model = SentenceTransformer('all-MiniLM-L6-v2')
+
+def update_song_embeddings():
+    songs_ref = db.collection('songs')
+    songs = songs_ref.stream()
+
+    for song in songs:
+        data = song.to_dict()
+        lyrics = data.get('lyrics')
+        if not lyrics:
+            continue
+
+        # Generate embedding and convert to list for JSON compatibility
+        embedding = model.encode(lyrics).tolist()
+        songs_ref.document(song.id).update({"embedding": embedding})
+        print(f"✅ Embedded {data.get('title')}")
+
+if __name__ == "__main__":
+    update_song_embeddings()
