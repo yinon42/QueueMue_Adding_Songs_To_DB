@@ -17,9 +17,8 @@ Notes:
 - Matching is case-insensitive and based on containment (e.g., "hiphop" in "hiphop/urban").
 - Songs can belong to multiple playlists if they have multiple genres.
 """
-
 # Initialize Firebase
-cred = credentials.Certificate(r"C:\Users\Yinon\PycharmProjects\QueueMue_Adding_Songs_To_DB\queuemueue-firebase-admin.json")
+cred = credentials.Certificate(r"C:\Users\yinon\PycharmProjects\quemueFirestoreAddSongs\queuemueue-firebase-admin.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
@@ -48,7 +47,7 @@ def build_system_playlists():
     genre_names = fetch_all_genres()
     all_songs = get_all_songs()
 
-    playlists = defaultdict(set)
+    playlists = defaultdict(list)
 
     for genre_name in genre_names:
         for song in all_songs:
@@ -58,18 +57,28 @@ def build_system_playlists():
 
             for sg in song_genres:
                 if genre_name in sg:
-                    playlists[genre_name].add(song_id)
+                    playlists[genre_name].append(song_id)
                     break  # Stop checking once a match is found
 
     # Write playlists to Firestore
     for genre, song_ids in playlists.items():
-        db.collection("system_playlists").document(genre).set({
+        # Create playlist document (metadata)
+        playlist_ref = db.collection("system_playlists").document(genre)
+        playlist_ref.set({
             "name": genre.capitalize(),
-            "songs": list(song_ids)
+            "numSongs": len(song_ids)
         })
+
+        # Write subcollection of songs with isLast field
+        for i, song_id in enumerate(song_ids):
+            playlist_ref.collection("songs").document(song_id).set({
+                "songId": song_id,
+                "isLast": (i == len(song_ids) - 1)
+            })
+
         print(f"🎵 Playlist '{genre}' – {len(song_ids)} songs added.")
 
-    print("\n✅ System playlists updated successfully!")
+    print("\n✅ System playlists with isLast updated successfully!")
 
 # Main Execution
 if __name__ == "__main__":
