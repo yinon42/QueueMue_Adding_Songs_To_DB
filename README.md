@@ -16,6 +16,8 @@ quemueFirestoreAddSongs/
 ├── BPM_Update.py                  # Analyze songs and fill missing BPM values
 ├── Songs_With_No_MP3_List.py      # List songs missing audioUrl (no uploaded MP3)
 ├── System_Playlists_Update.py     # Auto-create playlists grouped by genre
+├── generate_embeddings_to_firebase.py  # Generate sentence embeddings for lyrics
+├── update_main_genre.py           # Assign mainGenre field based on genre list
 ```
 
 ---
@@ -112,10 +114,37 @@ python System_Playlists_Update.py
 - Groups songs by `genreId`
 - Creates documents in `system_playlists` collection
 - Each playlist includes a list of song IDs by genre
+- Adds `isLast` field to last song in each playlist for playback logic
 
 ---
 
-### 7. 🔍 Identify Songs Missing Audio
+### 7. 🧠 Generate Embeddings for Lyrics
+
+Run `generate_embeddings_to_firebase.py` to create vector embeddings:
+
+```bash
+python generate_embeddings_to_firebase.py
+```
+
+- Uses `sentence-transformers` to generate embeddings
+- Saves result in `embedding` field for each song with lyrics
+
+---
+
+### 8. 🧬 Set Main Genre Field
+
+Run `update_main_genre.py` to assign the first genre in `genreId` to `mainGenre`:
+
+```bash
+python update_main_genre.py
+```
+
+- Adds `mainGenre` field to all relevant songs
+- Helpful for sorting, filtering and display
+
+---
+
+### 9. 🔍 Identify Songs Missing Audio
 
 List all songs without an MP3 using:
 
@@ -130,11 +159,11 @@ python Songs_With_No_MP3_List.py
 
 ## 📁 Firestore Collections Overview
 
-| Collection        | Purpose                                  |
-|------------------|-------------------------------------------|
-| `songs`          | Stores all song metadata and audio info  |
-| `artists`        | Stores artist names and IDs              |
-| `genres`         | Stores genre tags used for playlists     |
+| Collection          | Purpose                                  |
+|--------------------|-------------------------------------------|
+| `songs`            | Stores all song metadata and audio info  |
+| `artists`          | Stores artist names and IDs              |
+| `genres`           | Stores genre tags used for playlists     |
 | `system_playlists` | Stores auto-generated playlists by genre |
 
 ---
